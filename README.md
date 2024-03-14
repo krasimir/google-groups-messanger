@@ -1,1 +1,3 @@
-# google-groups-messanger
+# Google Groups Messanger
+
+Automate conversations in Google Groups.
