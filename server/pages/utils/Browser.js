@@ -6,7 +6,7 @@ async function createBrowser() {
   const instance = await puppeteer.launch(Object.assign(
     {
       headless: 'new',
-      args: ['--no-sandbox']
+      args: ['--no-sandbox', '--disable-web-security', '--user-data-dir', '--allow-running-insecure-content'],
     },
     !IS_IT_LOCAL ? {
       executablePath: '/usr/bin/chromium-browser',
