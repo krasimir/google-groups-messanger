@@ -11,7 +11,8 @@ Copy `example.config.json` to `config.json`.
 ### Locally
 
 1. Run `yarn`
-2. Run `yarn dev` and open http://localhost:8080/
+2. Run `yarn playwright install
+3. Run `yarn dev` and open http://localhost:8080/
 
 ### In the cloud
 

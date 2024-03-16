@@ -18,6 +18,7 @@ RUN apk add --update --no-cache \
   libjpeg-turbo-dev \
   chromium
 RUN yarn install
+RUN yarn playwright install
 
 COPY server ./server
 CMD [ "node", "./server/index.js" ]

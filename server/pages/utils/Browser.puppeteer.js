@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+puppeteer.use(StealthPlugin())
 
 const IS_IT_LOCAL = __dirname.startsWith('/Users/krasimir');
 
@@ -6,7 +9,7 @@ async function createBrowser() {
   const instance = await puppeteer.launch(Object.assign(
     {
       headless: 'new',
-      args: ['--no-sandbox', '--disable-web-security', '--user-data-dir', '--allow-running-insecure-content'],
+      args: ['--no-sandbox', '--disable-web-security', '--allow-running-insecure-content'],
     },
     !IS_IT_LOCAL ? {
       executablePath: '/usr/bin/chromium-browser',
@@ -16,9 +19,6 @@ async function createBrowser() {
   const page = await instance.newPage();
   const api = {
     page,
-    async screenshot(name) {
-      await page.screenshot({ path: `tmp/${name}.png` });
-    },
     open(url) {
       console.log(`Opening page ${url}`);
       return page.goto(url);
