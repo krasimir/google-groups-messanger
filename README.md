@@ -21,3 +21,8 @@ The project is prepared for deploying in GCP's cloud run.
 
 1. Copy `example.cloudbuild.yaml` to `cloudbuild.yaml` and replace the placeholders.
 2. Run `yarn deploy` (Of course you should have `gcloud` CLI already working)
+
+---
+
+P.S.
+You may need to make your Google account a manager of the group. This has nothing to do with the automation here. It's just a weird (maybe) bug and every new post falls into the "pending conversations" folder of the group.
