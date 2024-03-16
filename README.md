@@ -1,12 +1,12 @@
 # Google Groups Messanger
 
-Create new conversation in Google groups using puppeteer.
+Create new conversation in Google groups using playwright (with Firefox as a headless browser).
 
-_(Have in mind that this will work only if you don't have two-factor authentication set for the user)_
+_(Have in mind that this will work only if you don't have two-factor authentication for your gmail account)_
 
 ## Usage
 
-Copy `example.config.json` to `config.json`.
+Copy `example.config.json` to `config.json` and fill the placeholders.
 
 ### Locally
 

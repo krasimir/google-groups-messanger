@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VarnaLab Google group messanger</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      function controlForm(enabled) {
+        const form = document.querySelector('form');
+        form.querySelector('input').disabled = !enabled;
+        form.querySelector('textarea').disabled = !enabled;
+        form.querySelector('button').disabled = !enabled;
+      }
+
+      // Handling the form submission
+      const form = document.querySelector('form');
+      const submitButton = document.querySelector('form button');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const subject = document.querySelector('#subject').value;
+        const message = document.querySelector('#message').value;
+        controlForm(false);
+        submitButton.textContent = 'Sending...';
+        const response = await fetch('/message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ subject, message })
+        });
+        controlForm(true);
+        submitButton.textContent = 'Send';
+        if (!response.ok) {
+          return alert('Message not sent');
+        } else {
+          alert('Message sent successfully');
+        }
+      });
+
+      // Pre-filling the form
+      const month = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'][new Date().getMonth()].toLowerCase();
+      const subject = `👋 ВарнаЛаб: честит месец ${month}`;
+      const message = `Здравейте, лабъри! 🎉🎉🎉
+
+Месец ${month} е вече тук. Как са новите проекти, технологии? Споделете с нас тук или още по-добре на живо във ВарнаЛаб. Ако ви хрумва идея за събитие, или искате да видите какво ново се случва в лаба - https://www.varnalab.org/bg/events.
+
+Любезно напомняме, че лаба се издържа от дарения и членски внос. Ако искате да подкрепите ВарнаЛаб, можете да направите дарение тук - https://www.varnalab.org/bg/donate.
+
+Поздрави,
+ВарнаЛаб
+      `;
+      document.querySelector('#subject').value = subject;
+      document.querySelector('#message').value = message;
+    });
+  </script>
+</head>
+<body>
+  <main>
+    <section class="mx-auto max-800 px1">
+      <h1 class="tac">VarnaLab Google group messanger</h1>
+      <hr />
+      <form>
+        <div class="mb1">
+          <label for="subject" class="block">Subject</label>
+          <input type="text" id="subject" name="subject" required class="block">
+        </div>
+        <div class="mb1">
+          <label for="message" class="block">Message</label>
+          <textarea id="message" name="message" required class="block" rows='20'></textarea>
+        </div>
+        <div class="mb1">
+          <button type="submit" class="block">Send</button>
+        </div>
+      </form>      
+    </section>
+  </main>
+</body>
+</html>

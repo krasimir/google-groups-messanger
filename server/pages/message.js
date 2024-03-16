@@ -5,14 +5,12 @@ const { GROUP, USER, PASSWORD } = require('../../config.json');
 
 module.exports = async function (req, res) {
   let browser;
+  const subject = req.body.subject || 'Hey';
+  const message = req.body.message || 'Hello, world!';
   try {
     browser = await createBrowser();
     await browser.open(GROUP);
-    await postMessage(
-      browser,
-      `Test`,
-      `Text`
-    );
+    await postMessage(browser, subject, message);
     await browser.snapshot();
     await browser.close();
   } catch(err) {
@@ -38,14 +36,14 @@ async function postMessage(browser, subject, text) {
   await browser.page.type('[aria-label="Enter your password"]', PASSWORD);
   console.log('Typed the password');
   await clickButtonWithLabel(browser, 'Next');
-  await browser.page.waitForSelector('[aria-label*="Профил в Google"]', { timeout: 4000 });
+  await browser.page.waitForSelector('[aria-label*="Google Account"]', { timeout: 4000 });
   await browser.open(GROUP);
-  await clickButtonWithLabel(browser, 'Нов разговор');
-  await browser.page.waitForSelector('[aria-label="Тема"]');
+  await clickButtonWithLabel(browser, 'New conversation');
+  await browser.page.waitForSelector('[aria-label="Subject"]');
   console.log('Clicked the new conversation button');
-  await browser.page.type('[aria-label="Тема"]', subject);
-  await browser.page.type('[aria-label="Създаване на съобщение"]', text);
-  await browser.page.locator('[aria-label="Публикуване на съобщението"]').first().click();
+  await browser.page.type('[aria-label="Subject"]', subject);
+  await browser.page.type('[aria-label="Compose a message"]', text);
+  await browser.page.locator('[aria-label="Post message"]').first().click();
   console.log('Posted the message');
   await delay(2000);
 }
