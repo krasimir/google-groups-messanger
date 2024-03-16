@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM mcr.microsoft.com/playwright:v1.42.1-jammy
 
 EXPOSE 8080
 
@@ -7,17 +7,8 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY config.json ./
 
-RUN apk add --update --no-cache \
-  make \
-  g++ \
-  automake \
-  autoconf \
-  libtool \
-  nasm \
-  libjpeg-turbo-dev
 RUN yarn install
 RUN yarn playwright install
-RUN yarn playwright install firefox
 
 COPY server ./server
 CMD [ "node", "./server/index.js" ]
