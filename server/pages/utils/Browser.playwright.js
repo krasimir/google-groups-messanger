@@ -15,7 +15,7 @@ async function createBrowser() {
       return page.goto(url);
     },
     async snapshot() {
-      await page.screenshot({ path: 'tmp/page.png' });
+      await page.screenshot({ path: 'page.png' });
     },
     async close() {
       await browser.close();
