@@ -1,9 +1,10 @@
 const { createBrowser } = require("./utils/Browser.playwright");
 
-const { GROUP, USER, PASSWORD } = require('../../config.json');
+const { USER, PASSWORD } = require('../../config.json');
 
 module.exports = async function (req, res) {
   let browser;
+  const to = req.body.to;
   const subject = req.body.subject || 'Hey';
   const message = req.body.message || 'Hello, world!';
 
@@ -12,9 +13,11 @@ module.exports = async function (req, res) {
   // res.json({ ok: true });return;
 
   try {
+    if (!to) {
+      throw new Error('Missing "to" field');
+    }
     browser = await createBrowser();
-    await browser.open(GROUP);
-    await postMessage(browser, subject, message);
+    await postMessage(browser, to, subject, message);
     await browser.snapshot();
     await browser.close();
   } catch(err) {
@@ -28,7 +31,8 @@ module.exports = async function (req, res) {
   res.json({ ok: true });
 }
 
-async function postMessage(browser, subject, text) {
+async function postMessage(browser, to, subject, message) {
+  await browser.open(to);
   console.log('Opened the page');
   await browser.page.click('[aria-label="Sign in"]');
   console.log('Clicked the sign in button');
@@ -41,12 +45,12 @@ async function postMessage(browser, subject, text) {
   console.log('Typed the password');
   await clickButtonWithLabel(browser, 'Next');
   await browser.page.waitForSelector('[aria-label*="Google Account"]', { timeout: 4000 });
-  await browser.open(GROUP);
+  await browser.open(to);
   await clickButtonWithLabel(browser, 'New conversation');
   await browser.page.waitForSelector('[aria-label="Subject"]');
   console.log('Clicked the new conversation button');
   await browser.page.type('[aria-label="Subject"]', subject);
-  await browser.page.type('[aria-label="Compose a message"]', text);
+  await browser.page.type('[aria-label="Compose a message"]', message);
   await browser.page.locator('[aria-label="Post message"]').first().click();
   console.log('Posted the message');
   await delay(2000);
