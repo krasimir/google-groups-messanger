@@ -1,7 +1,5 @@
 const playwright = require("playwright");
 
-const IS_IT_LOCAL = __dirname.startsWith('/Users/krasimir');
-
 async function createBrowser() {
   const browser = await playwright['firefox'].launch()
   const context = await browser.newContext({
@@ -15,7 +13,7 @@ async function createBrowser() {
       return page.goto(url);
     },
     async snapshot() {
-      await page.screenshot({ path: 'page.png' });
+      await page.screenshot({ path: __dirname + '/../../public/page.png' });
     },
     async close() {
       await browser.close();
