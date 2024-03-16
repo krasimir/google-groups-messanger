@@ -8,11 +8,25 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-      function controlForm(enabled) {
-        const form = document.querySelector('form');
-        form.querySelector('input').disabled = !enabled;
-        form.querySelector('textarea').disabled = !enabled;
-        form.querySelector('button').disabled = !enabled;
+      function showNotification(msg, type = 'warning') {
+        document.querySelector('#notification').textContent = msg;
+        document.querySelector('#notification').style.display = 'block';
+        if (type === 'error') {
+          document.querySelector('#notification').style.backgroundColor = '#e2acac';
+        } else if (type === 'warning') {
+          document.querySelector('#notification').style.backgroundColor = '#a8e8ee';
+        } else {
+          document.querySelector('#notification').style.backgroundColor = '#70e292';
+        }
+      }
+      function hideNotification() {
+        document.querySelector('#notification').style.display = 'none';
+      }
+      function hideForm() {
+        document.querySelector('form').style.display = 'none';
+      }
+      function showForm() {
+        document.querySelector('form').style.display = 'block';
       }
 
       // Handling the form submission
@@ -22,8 +36,8 @@
         e.preventDefault();
         const subject = document.querySelector('#subject').value;
         const message = document.querySelector('#message').value;
-        controlForm(false);
-        submitButton.textContent = 'Sending...';
+        hideForm();
+        showNotification('Sending message... Usually takes ~20 seconds. Please wait.', 'warning');
         const response = await fetch('/message', {
           method: 'POST',
           headers: {
@@ -31,12 +45,11 @@
           },
           body: JSON.stringify({ subject, message })
         });
-        controlForm(true);
-        submitButton.textContent = 'Send';
+        showForm();
         if (!response.ok) {
-          return alert('Message not sent');
+          showNotification('Error sending message. Please try again later.', 'error');
         } else {
-          alert('Message sent successfully');
+          showNotification('Message sent successfully!', 'success');
         }
       });
 
@@ -61,8 +74,8 @@
   <main>
     <section class="mx-auto max-800 px1">
       <h1 class="tac">VarnaLab Google group messanger</h1>
-      <hr />
-      <form>
+      <div id="notification" class="mb1 tac"></div>
+      <form class="mb1">
         <div class="mb1">
           <label for="subject" class="block">Subject</label>
           <input type="text" id="subject" name="subject" required class="block">
@@ -74,7 +87,7 @@
         <div class="mb1">
           <button type="submit" class="block">Send</button>
         </div>
-      </form>      
+      </form>
     </section>
   </main>
 </body>

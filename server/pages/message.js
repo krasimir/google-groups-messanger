@@ -1,4 +1,3 @@
-// const { createBrowser } = require("./utils/Browser.puppeteer");
 const { createBrowser } = require("./utils/Browser.playwright");
 
 const { GROUP, USER, PASSWORD } = require('../../config.json');
@@ -7,6 +6,11 @@ module.exports = async function (req, res) {
   let browser;
   const subject = req.body.subject || 'Hey';
   const message = req.body.message || 'Hello, world!';
+
+  // await delay(4000);
+  // res.status(500);
+  // res.json({ ok: true });return;
+
   try {
     browser = await createBrowser();
     await browser.open(GROUP);
