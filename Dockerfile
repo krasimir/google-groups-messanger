@@ -6,7 +6,6 @@ WORKDIR /usr
 COPY package.json ./
 COPY yarn.lock ./
 COPY config.json ./
-COPY .puppeteerrc.js ./
 
 RUN apk add --update --no-cache \
   make \
@@ -15,10 +14,10 @@ RUN apk add --update --no-cache \
   autoconf \
   libtool \
   nasm \
-  libjpeg-turbo-dev \
-  chromium
+  libjpeg-turbo-dev
 RUN yarn install
 RUN yarn playwright install
+RUN yarn playwright install firefox
 
 COPY server ./server
 CMD [ "node", "./server/index.js" ]
