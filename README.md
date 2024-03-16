@@ -1,4 +1,4 @@
-# Google Groups Messanger
+# Google Groups Messеnger
 
 Create new conversation in Google groups using playwright (with Firefox as a headless browser).
 
