@@ -13,6 +13,7 @@ Copy `example.config.json` to `config.json` and fill the placeholders.
 1. Run `yarn`
 2. Run `yarn playwright install
 3. Run `yarn dev` and open http://localhost:8080/
+4. You'll probably need to update `/server/public/index.html` with your pre-filled subject and text.
 
 ### In the cloud
 
