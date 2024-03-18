@@ -1,4 +1,6 @@
 {
   "USER": "xxx",
-  "PASSWORD": "xxx"
+  "PASSWORD": "xxx",
+  "BASIC_AUTH_USER": "xxx",
+  "BASIC_AUTH_PASSWORD": "xxx"
 }
